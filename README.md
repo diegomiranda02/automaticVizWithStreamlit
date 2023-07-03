@@ -34,3 +34,9 @@ Once your report is ready, Streamlit offers functionalities to generate various 
 ### 8. Deploying and Sharing the Report:
 Streamlit makes it effortless to deploy your automated business report. You can host your Streamlit application on cloud platforms like Heroku, AWS, or Google Cloud, allowing stakeholders to access the report remotely. Additionally, you can share the application's URL, or embed it within an existing website or intr
 
+### References
+
+https://towardsdatascience.com/3-easy-ways-to-include-interactive-maps-in-a-streamlit-app-b49f6a22a636
+
+https://stackoverflow.com/questions/63787612/plotly-automatic-zooming-for-mapbox-maps
+
