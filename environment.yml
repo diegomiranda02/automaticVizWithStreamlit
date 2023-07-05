@@ -1,0 +1,5 @@
+name: automaticVizWithStreamlit
+dependencies:
+  - streamlit
+  - pip: 
+    - streamlit

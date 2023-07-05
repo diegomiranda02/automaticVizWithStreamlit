@@ -1,10 +1,7 @@
 # streamlit library
 import streamlit as st
-st. set_page_config(layout="wide") 
-# HTML requests library
-from requests_html import HTMLSession
+st. set_page_config(layout="centered") 
 
-# basic libraries
 import time
 
 # JSON to render the API responde into a Python Object
@@ -13,41 +10,52 @@ import json
 # Pandas
 import pandas as pd
 
+# Numpy
+import numpy as np
 
-# start an HTML session to get page contents
-sess = HTMLSession()
+# Plotly
+import plotly.express as px
 
-# call the server API routes to get an answer
-def get_data(command):    
-    api_url = f"http://localhost:8000/llm_api?command={command}"
-    course_json = sess.get(api_url).text
-    return course_json
 
-# insert fields on the interface
-st.title('NLP AI')
-st.title('Assistente')
-command = st.text_input("O que deseja?", "Gerar um relatorio?", disabled=False)
+def get_data():    
+    # Open data.json file
+    f = open('data.json')
 
-# check if the Send button was pressed and get the API Data
-if st.button("Enviar"):        
-    with st.spinner('Consulta em andamento...'):
-        data = get_data(command=command)
-        data_content = json.loads(data)
+    # JSON object as a dictionary
+    data = json.load(f)
+    
+    # Closing file
+    f.close()
 
-        count = 0
-        for key,value in data_content.items():
+    # Return the json data
+    return data
 
-            if isinstance(value, str):
-                # Print text Streamlit
-                t = st.empty()
-                for i in range(len(value) + 1):
-                    t.markdown("## %s" % value[0:i])
-                    time.sleep(0.04)
+data_content = get_data()
 
-            if isinstance(value, list):
-                #print(value)
-                df_from_list = pd.DataFrame(value)
-                print(df_from_list)
-                st.table(df_from_list)
+for key,value in data_content.items():
+    if key.startswith("table") and isinstance(value, list):
+        st.table(pd.DataFrame(value))
 
-            count += 1
+    elif key.startswith("title") and isinstance(value, str):
+        st.header(value)
+    
+    elif key.startswith("subtitle") and isinstance(value, str):
+        st.header(value)
+
+    elif isinstance(value, str):
+        st.write(value)    
+
+    elif key.startswith("map") and isinstance(value, list):
+        # Converting list to Dataframe
+        df = pd.DataFrame(value)
+
+        # Snippet of code based on the article 1 in References section
+        max_bound = max(abs(max(df['lat'])- min(df['lat'])), abs(max(df['lon'])- min(df['lon']))) * 111
+        zoom = 11.5 - np.log(max_bound)
+
+        # Snippet of code based on the article 2 in References section
+        fig = px.scatter_mapbox(df, lat="lat", lon="lon", zoom=zoom)
+
+        fig.update_layout(mapbox_style="open-street-map")
+        fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+        st.plotly_chart(fig)
