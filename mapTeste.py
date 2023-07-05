@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.express as px
 
 df = pd.DataFrame(
     np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
@@ -11,7 +12,7 @@ print(df.head())
 
 #st.map(df)
 
-import plotly.express as px
+
 
 max_bound = max(abs(max(df['lat'])- min(df['lat'])), abs(max(df['lon'])- min(df['lon']))) * 111
 zoom = 11.5 - np.log(max_bound)
