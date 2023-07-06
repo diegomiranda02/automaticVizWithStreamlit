@@ -1,5 +1,8 @@
 # streamlit library
 import streamlit as st
+
+from reports.json_reports import CustomerReport
+
 st. set_page_config(layout="centered") 
 
 import time
@@ -17,18 +20,15 @@ import numpy as np
 import plotly.express as px
 
 
-def get_data():    
-    # Open data.json file
-    f = open('data.json')
+def get_data(): 
+    customerReportTitle = "Clients Report"
+    customerReportSubtitle = "Detailed information about the Olist clients"
+    cr = CustomerReport(customerReportTitle, customerReportSubtitle)
+    cr.customerDetailedInformation()
+    cr.customerLocation()
+    data = cr.generateJSONReport()
 
-    # JSON object as a dictionary
-    data = json.load(f)
-    
-    # Closing file
-    f.close()
-
-    # Return the json data
-    return data
+    return json.loads(data)
 
 data_content = get_data()
 

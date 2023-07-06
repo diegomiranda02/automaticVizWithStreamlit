@@ -67,7 +67,7 @@ Streamlit makes it effortless to deploy your automated business report. You can 
 
 ### References
 
-https://towardsdatascience.com/3-easy-ways-to-include-interactive-maps-in-a-streamlit-app-b49f6a22a636
+1. https://towardsdatascience.com/3-easy-ways-to-include-interactive-maps-in-a-streamlit-app-b49f6a22a636
 
-https://stackoverflow.com/questions/63787612/plotly-automatic-zooming-for-mapbox-maps
+2. https://stackoverflow.com/questions/63787612/plotly-automatic-zooming-for-mapbox-maps
 
