@@ -20,13 +20,11 @@ Streamlit is an open-source Python library designed for rapid prototyping and bu
 
 ``` 
 git clone https://github.com/diegomiranda02/automaticVizWithStreamlit.git
-
 ```
 Once the project download is done, change to the project directory:
 
 ```
 cd <project_directory>
-
 ```
 
 4. Build the Docker image:
@@ -34,7 +32,6 @@ cd <project_directory>
 
 ```
 docker build -t my_app .
-
 ```
 This command builds the Docker image and tags it with the name my_app. The . at the end indicates that the build context is the current directory.
 
@@ -43,7 +40,6 @@ This command builds the Docker image and tags it with the name my_app. The . at 
 
 ```
 docker run -p 8501:8501 my_app
-
 ```
 
 This command runs the Docker container and forwards the port 8501 from the container to the host machine. Streamlit runs on port 8501 by default.
