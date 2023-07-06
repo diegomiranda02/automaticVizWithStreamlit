@@ -6,15 +6,50 @@ In today's data-driven world, generating business reports efficiently and effect
 ### 1. Understanding Streamlit:
 Streamlit is an open-source Python library designed for rapid prototyping and building interactive data applications. It simplifies the process of creating web-based data visualizations, allowing developers and data scientists to quickly transform raw data into visually appealing and interactive reports. Streamlit's simplicity lies in its ability to convert Python scripts into interactive web apps effortlessly.
 
-### 2. Setting up Streamlit:
-Before getting started with Streamlit, ensure you have Python installed on your system. Streamlit can be installed using pip, the Python package manager. Open your terminal or command prompt and run the following command:
+### 2. Setting up your local environment:
+
+1. Install Docker: Visit the official Docker website (https://docs.docker.com/get-docker/) and follow the instructions to install Docker on your system.
+
+2. Install Git: Install Git from the official website (https://git-scm.com/downloads) if you haven't already.
+
+3. Clone the GitHub project:
+
+- Open a terminal or command prompt
+- Change to the directory where you want to clone the project.
+- Run the following command to clone the project:
+
+``` 
+git clone https://github.com/diegomiranda02/automaticVizWithStreamlit.git
+
 ```
-pip install streamlit
+Once the project download is done, change to the project directory:
+
 ```
-Once installed, Streamlit can be imported into your Python script using the following line of code:
-```python
-import streamlit as st
+cd <project_directory>
+
 ```
+
+4. Build the Docker image:
+- Run the following command to build the Docker image:
+
+```
+docker build -t my_app .
+
+```
+This command builds the Docker image and tags it with the name my_app. The . at the end indicates that the build context is the current directory.
+
+5. Run the Docker container:
+- Once the image is built, you can run the Docker container using the following command:
+
+```
+docker run -p 8501:8501 my_app
+
+```
+
+This command runs the Docker container and forwards the port 8501 from the container to the host machine. Streamlit runs on port 8501 by default.
+You can access your Streamlit application by opening a web browser and visiting http://localhost:8501.
+
+That's it! You've created a Docker image and run a Streamlit application using Python 3.10.9 and the source code from a GitHub project.
 
 ### 3. Creating the Report Structure:
 To begin automating your business report, start by defining the overall structure and layout. Streamlit provides various components, such as containers, columns, and widgets, to organize and present your data effectively. For instance, you can use the `st.sidebar` container for navigation and configuration options, while using `st.columns` to create multiple columns for displaying different aspects of your report.
