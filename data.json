@@ -49,10 +49,10 @@
        ],
     "mapDescription": "Mapa contento os dados das vendas dos produtos na regiao do mes de abril do ano de 2023",
     "map": [
-        { "lat": 37.767588, "lon": -122.411324},
-        { "lat": 37.754453, "lon": -122.394884},
-        { "lat": 37.732469, "lon": -122.407187},
-        { "lat": 37.752512, "lon": -122.404144},
-        { "lat": 37.761002, "lon": -122.423114}
+        { "lat": -23.5489, "lon": -46.6388},
+        { "lat": -23.5587, "lon": -46.6411},
+        { "lat": -23.5599, "lon": -46.6541},
+        { "lat": -23.5689, "lon": -46.6599},
+        { "lat": -23.5789, "lon": -46.6630}
         ]
   } 
