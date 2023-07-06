@@ -44,16 +44,7 @@ class CustomerReport(BaseJSONReport):
     def customerLocation(self):
 
         # Read the CSV file from Olist Kaggle Dataset 
-        df_geolocation = pd.read_csv('data_files/olist_geolocation_dataset.csv')
-
-        # Filtering the dataset with the Sao Paulo state geolocation 
-        df_geolocation = df_geolocation[df_geolocation['geolocation_state'] == 'SP']
-
-        # Selecting the latitude and longitude columns
-        df_geolocation = df_geolocation[['geolocation_lat', 'geolocation_lng']]
-
-        # Renaming the columns "geolocation_lat" and "geolocation_lng" to "lat" and "lon" respectively
-        df_geolocation.rename(columns={"geolocation_lat": "lat", "geolocation_lng": "lon"}, inplace=True)
+        df_geolocation = pd.read_csv('data_files/olist_geolocation_dataset_filtered_SP.csv')
 
         # Convert the dataframe to a dictionary
         grouped_dict = df_geolocation.to_dict(orient='records')
@@ -71,9 +62,9 @@ class CustomerReport(BaseJSONReport):
 class FinancialReport(BaseJSONReport):
 
     def __init__(self, title:str, subtitle:str):
-        super(CustomerReport, self).__init__(title, subtitle)
+        super(FinancialReport, self).__init__(title, subtitle)
 
-    def customerDetailedInformation(self):
+    def detailedRevenue(self):
         df1 = pd.DataFrame({'Name': ['John', 'Alice'], 'Age': [25, 30]})
         df2 = pd.DataFrame({'City': ['New York', 'London'], 'Country': ['USA', 'UK']})
 
@@ -82,7 +73,7 @@ class FinancialReport(BaseJSONReport):
 
         self.addTableData("Teste", df1_dict)
 
-    def customerLocation(self):
+    def detailedExpenses(self):
 
         mapdf1 = pd.DataFrame({'lat': [-23.5489, -23.5587, -23.5599, -23.5689, -23.5789], 'lon': [-46.6388, -46.6411, -46.6541, -46.6599, -46.6630]})
         mapdf1_dict = mapdf1.to_dict(orient='records')
