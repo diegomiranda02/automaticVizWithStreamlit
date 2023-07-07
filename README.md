@@ -6,7 +6,70 @@ In today's data-driven world, generating business reports efficiently and effect
 ### 1. Understanding Streamlit:
 Streamlit is an open-source Python library designed for rapid prototyping and building interactive data applications. It simplifies the process of creating web-based data visualizations, allowing developers and data scientists to quickly transform raw data into visually appealing and interactive reports. Streamlit's simplicity lies in its ability to convert Python scripts into interactive web apps effortlessly.
 
-### 2. Setting up your local environment:
+### 2. Creating the Report Structure:
+To begin automating the business report, the definition of the overall structure and layout is needed. The formart chosen to exchange data bewteen the backend and visualization tool was JSON. Some patterns building the JSON were defined also. Bellow is a snipet of JSON exemplifying how the data is struturec:
+
+```
+{
+    tableContentDescription0" : "Products Revenue",
+    "tableData0" : 
+        [
+       { "Year": "2022", "Product": "Product 1","Total":10000.00},
+       { "Year": "2021", "Product": "Product 1","Total":9000.00}
+       ],
+    "mapDescription1": "Sales per region in 2022",
+    "mapData1": [
+        { "lat": -23.5489, "lon": -46.6388},
+        { "lat": -23.5587, "lon": -46.6411},
+        { "lat": -23.5599, "lon": -46.6541},
+        { "lat": -23.5689, "lon": -46.6599},
+        { "lat": -23.5789, "lon": -46.6630}
+        ]
+} 
+``` 
+
+To build this JSON structure automatically, the class BaseReport was created. The main purpose of this class is to get the data a generate the part of JSON in the format define above. 
+
+```
+class BaseJSONReport():
+
+    def __init__(self, title:str, subtitle:str):
+        self.data_dict = {}
+        self.keySuffix = 0
+
+        self.addTitleData(title)
+        self.addSubtitleData(subtitle)
+   
+    def addTitleData(self, description: str) -> None:
+        self.data_dict["title" + str(self.keySuffix)] = description
+        self.keySuffix += 1
+
+    def addSubtitleData(self, description: str) -> None:
+        self.data_dict["subtitle" + str(self.keySuffix)] = description
+        self.keySuffix += 1
+
+    def addMapData(self, description: str, data: Dict[str, Dict]) -> None:
+        self.data_dict["mapDescription" + str(self.keySuffix)] = description
+        self.data_dict["mapData" + str(self.keySuffix)] = data
+        self.keySuffix += 1
+
+    def addTableData(self, description: str, data: Dict[str, Dict]) -> None:
+        self.data_dict["tableDescription" + str(self.keySuffix)] = description
+        self.data_dict["tableData" + str(self.keySuffix)] = data
+        self.keySuffix += 1
+    
+    def addBarChartData(self, description: str, data: Dict[str, Dict]) -> None:
+        self.data_dict["barchartDescription" + str(self.keySuffix)] = description
+        self.data_dict["barchartData" + str(self.keySuffix)] = data
+        self.keySuffix += 1
+
+    def generateJSONReport(self) -> Dict:
+        json_object = json.dumps(self.data_dict)
+        return json_object
+```
+
+
+### 3. Setting up your local environment:
 
 1. Install Docker: Visit the official Docker website (https://docs.docker.com/get-docker/) and follow the instructions to install Docker on your system.
 
@@ -46,9 +109,6 @@ This command runs the Docker container and forwards the port 8501 from the conta
 You can access your Streamlit application by opening a web browser and visiting http://localhost:8501.
 
 That's it! You've created a Docker image and run a Streamlit application using Python 3.10.9 and the source code from a GitHub project.
-
-### 3. Creating the Report Structure:
-To begin automating your business report, start by defining the overall structure and layout. Streamlit provides various components, such as containers, columns, and widgets, to organize and present your data effectively. For instance, you can use the `st.sidebar` container for navigation and configuration options, while using `st.columns` to create multiple columns for displaying different aspects of your report.
 
 ### 4. Loading and Preprocessing Data:
 Next, you need to load and preprocess the data that will populate your report. Streamlit supports various data formats, including CSV, Excel, and databases. Use the appropriate data loading functions to read the data into your Python script. Once loaded, perform any necessary preprocessing steps, such as data cleaning, filtering, and aggregation, to ensure the data is in the desired format for analysis.
