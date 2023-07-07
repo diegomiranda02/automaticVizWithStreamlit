@@ -71,7 +71,7 @@ class FinancialReport(BaseJSONReport):
         df1_dict = df1.to_dict(orient='records')
         df2_dict = df2.to_dict(orient='records')
 
-        self.addTableData("Teste", df1_dict)
+        self.addBarChartData("Payments", df1_dict)
 
     def detailedExpenses(self):
 

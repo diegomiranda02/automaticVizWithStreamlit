@@ -70,6 +70,16 @@ def generate_report(data_content):
             fig.update_layout(mapbox_style="open-street-map")
             fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
             st.plotly_chart(fig)
+        
+        elif key.startswith("barchart") and isinstance(value, list):
+            # Converting list to Dataframe
+            chart_data = pd.DataFrame(value)
+
+            #chart_data = pd.DataFrame(
+            #np.random.randn(20, 3),
+            #columns=["a", "b", "c"])
+
+            st.bar_chart(chart_data)
 
 tab1, tab2 = st.tabs(["Client Report", "Financial Report"])
 

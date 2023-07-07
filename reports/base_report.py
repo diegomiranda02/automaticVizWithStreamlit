@@ -29,6 +29,11 @@ class BaseJSONReport():
         self.data_dict["tableDescription" + str(self.keySuffix)] = description
         self.data_dict["tableData" + str(self.keySuffix)] = data
         self.keySuffix += 1
+    
+    def addBarChartData(self, description: str, data: Dict[str, Dict]) -> None:
+        self.data_dict["barchartDescription" + str(self.keySuffix)] = description
+        self.data_dict["barchartData" + str(self.keySuffix)] = data
+        self.keySuffix += 1
 
     def generateJSONReport(self) -> Dict:
         json_object = json.dumps(self.data_dict)
