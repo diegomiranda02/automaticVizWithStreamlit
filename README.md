@@ -68,7 +68,7 @@ class BaseJSONReport():
         return json_object
 ```
 
-Each method is reponsible to generate the component description and the JSON section with the data. For instance, the method addTableData is responsible to generate the JSON section of the table description and the table data. To build this is used a python dictionary type, onde the key of the dictionary is unique the keySuffix variable is reponsible to add a number to each key to distiguish among keys with similar components. Below is an example on how to compose a JSON data report inheriting the BaseReport class:
+Each method is reponsible to generate the component description and the JSON section with the data. For instance, the method 'addTableData' is responsible to generate the JSON section of the table description and the table data. To build this, is used a python dictionary type. Once the key of the dictionary is unique, the 'keySuffix' variable is reponsible to add a number to each key, to distiguish among keys with similar components. Below is an example on how to compose a JSON data report inheriting the BaseReport class:
 
 ```
 class CustomerReport(BaseJSONReport):
@@ -118,14 +118,14 @@ class CustomerReport(BaseJSONReport):
         return super().generateJSONReport()
 ```
 
-The classe CustomerReport has two report sections: a customer detailed information section, defined in the 'customerDetailedInformation method, and a customer location section, which is defined in the 'customerLocation' method. To generate the JSON is the format specified previouly, is used the methods of the class BaseReport 'addTableData' and 'addMapData'. And after the sections of the report implemented, the method 'generateJSONReport' is executed to create the whole report structure. To define the title and subtitle of the report two variables are defined in the superclass BaseReport, and to set this variables values the following code is used:
+The classe CustomerReport has two report sections: a customer detailed information section, defined in the 'customerDetailedInformation method, and a customer location section, which is defined in the 'customerLocation' method. To generate the JSON is the format specified previouly, is used the methods of the class BaseReport 'addTableData' and 'addMapData'. And after the sections of the report implemented, the method 'generateJSONReport' is executed to create the whole report structure. To define the title and subtitle of the report, two variables are defined in the superclass BaseReport, and to set this variables values the following code is used:
 
 ```
 def __init__(self, title:str, subtitle:str):
         super(CustomerReport, self).__init__(title, subtitle)
 ```
 
-After the CustomerReport is implemented is time to instantiate the report and get the JSON result to show in the visualization tool. The following code do the job:
+After the CustomerReport is implemented, is time to instantiate the report and get the JSON result to show in the visualization tool. The following code do the job:
 
 ```
 customerReportTitle = "Clients Report"
@@ -136,7 +136,7 @@ cr.customerLocation()
 data = cr.generateJSONReport()
 ```
 
-The title and subtitle are defined. The sections of the customer detailed information and customer location are added to the report. It is import to notice that is possible to compose the report with only the sections needed. if only the customer location section was needed, than only the method 'customerLocation' should de called. this gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
+The title and subtitle are defined in the 'customerReportTitle' and 'customerReportSubtitle' variables. The sections of the customer detailed information and customer location are added to the report. It is import to notice that is possible to compose the report with only the sections needed. if only the customer location section was needed, than only the method 'customerLocation' should de called. this gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
 
 ### 3. Setting up your local environment:
 
