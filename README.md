@@ -136,7 +136,7 @@ cr.customerLocation()
 data = cr.generateJSONReport()
 ```
 
-The title and subtitle are defined in the 'customerReportTitle' and 'customerReportSubtitle' variables. The sections of the customer detailed information and customer location are added to the report. It is import to notice that is possible to compose the report with only the sections needed. if only the customer location section was needed, than only the method 'customerLocation' should de called. this gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
+The title and subtitle are defined in the 'customerReportTitle' and 'customerReportSubtitle' variables. The sections of the customer detailed information and customer location are added to the report. It is import to notice that is possible to compose the report with only the sections needed. If only the customer location section is needed, than only the method 'customerLocation' should de called. this gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
 
 ### 3. Setting up your local environment:
 
@@ -180,44 +180,45 @@ You can access your Streamlit application by opening a web browser and visiting 
 That's it! You've created a Docker image and run a Streamlit application using Python 3.10.9 and the source code from a GitHub project.
 
 ### 4. Loading and Preprocessing Data:
-Next, it is needed to load and preprocess the data that will populate the report. Streamlit supports various data formats, including CSV, Excel, and databases. In this project the Kaggle Dataset of the Brazilian E-Commerce Olist was used. Some preprocessing was done to the data:
+
+Next, it is needed to load and preprocess the data that will populate the report. Streamlit supports various data formats, including CSV, Excel, and databases. In this project the Kaggle Dataset of the Brazilian E-Commerce Olist (link in the Dataset section) was used. Some preprocessing was done to the data:
 
 ```
 # Read the CSV file from Olist Kaggle Dataset 
-        df = pd.read_csv('data_files/olist_customers_dataset.csv')
+df = pd.read_csv('data_files/olist_customers_dataset.csv')
 
-        # Selecting only the custome_state column
-        df_states = df[['customer_state']]
+# Selecting only the custome_state column
+df_states = df[['customer_state']]
 
-        # Renaming the column "customer_state" to "Customer State" 
-        df_states.rename(columns={"customer_state": "Customer State"}, inplace=True)
+# Renaming the column "customer_state" to "Customer State" 
+df_states.rename(columns={"customer_state": "Customer State"}, inplace=True)
 
-        # Count the number of clients per state
-        grouped = df_states.groupby('Customer State').size().reset_index(name='Count')
+# Count the number of clients per state
+grouped = df_states.groupby('Customer State').size().reset_index(name='Count')
 
-        # Calculating the percentage of clients per state
-        grouped['Percentage'] = (grouped['Count']/grouped['Count'].sum()) * 100
+# Calculating the percentage of clients per state
+grouped['Percentage'] = (grouped['Count']/grouped['Count'].sum()) * 100
 
-        # Rounding the percentage to two decimals
-        grouped['Percentage'] = grouped['Percentage'].round(2)
+# Rounding the percentage to two decimals
+grouped['Percentage'] = grouped['Percentage'].round(2)
 
-        # Sorting the percentage values in descending order
-        grouped.sort_values('Percentage', ascending=False, inplace=True)
+# Sorting the percentage values in descending order
+grouped.sort_values('Percentage', ascending=False, inplace=True)
 
-        # Convert the dataframe to a dictionary
-        grouped_dict = grouped.to_dict(orient='records')
+# Convert the dataframe to a dictionary
+grouped_dict = grouped.to_dict(orient='records')
 ```
 
-Only the 'customer_state' column was needed to this task. The columns was renamed, and was calculated the number of clients per state and the percentage by each state. The last step is to convert the datafram to a python dictionary orienting by the records to print in the same JSON specficiation.
+Only the 'customer_state' column was needed to this task. The columns was renamed and was calculated the number of clients per state and the percentage by each state. The last step is to convert the dataframe to a python dictionary, orienting by the records to print in the same JSON specification.
 
-The map data is in the 'olist_geolocation_dataset_filtered_SP.csv' file, which is a smaller and filtered data than the original one. Only the Sao Paulo location is in the file. The only preprocessing step is to convert the 'lat' and 'lon', which represent the latitude and and longitudade, respectively, to a dictionary oriented by the records to meet the specification.
+The map data is in the 'olist_geolocation_dataset_filtered_SP.csv' file, which is a smaller and filtered data than the original one. Only the Sao Paulo location is in the file. The only preprocessing step is to convert the 'lat' and 'lon' columns, which represent the latitude and the longitude, respectively, to a dictionary oriented by the records to meet the specification.
 
 ```
 # Read the CSV file from Olist Kaggle Dataset 
-        df_geolocation = pd.read_csv('data_files/olist_geolocation_dataset_filtered_SP.csv')
+df_geolocation = pd.read_csv('data_files/olist_geolocation_dataset_filtered_SP.csv')
 
-        # Convert the dataframe to a dictionary
-        grouped_dict = df_geolocation.to_dict(orient='records')
+# Convert the dataframe to a dictionary
+grouped_dict = df_geolocation.to_dict(orient='records')
 ```
         
 
@@ -256,9 +257,10 @@ def generate_report(data_content):
             st.plotly_chart(fig)
 ```
 
-Each method compares if the key has some pattern and if the value is the of some type. For instance, is the key starts with 'map' and the value is a list then generates a map component. Another example is if the key starts with 'table' and the value is an instance of a list, then a datatable is generated. With the JSON specification and the visualization method on the frontend, the the report is generated automatically.
+Each method compares if the key has some pattern and the value type. For instance, if the key starts with 'map' and the value is a list then generates a map component. Another example is if the key starts with 'table' and the value is an instance of a list then a datatable is generated. The 'data_content' variable is the data in JSON specification format. The method 'generate_report' receives the JSON data as parameter the the report is generated automatically.
 
 ### 6. Deploying and Sharing the Report:
+
 Streamlit makes it effortless to deploy your automated business report. You can host your Streamlit application on cloud platforms like Heroku, AWS, or Google Cloud, allowing stakeholders to access the report remotely. Additionally, you can share the application's URL, or embed it within an existing website or intranet.
 
 ### References
