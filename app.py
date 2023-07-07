@@ -7,6 +7,8 @@ st. set_page_config(layout="centered")
 
 import time
 
+from typing import Dict
+
 # JSON to render the API responde into a Python Object
 import json
 
@@ -36,8 +38,7 @@ def get_data(report_name: str):
         financialReportTitle = "Financial Report"
         financialReportSubtitle = "Detailed information about the Olist financial"
         fr = FinancialReport(financialReportTitle, financialReportSubtitle)
-        fr.detailedRevenue()
-        fr.detailedExpenses()
+        fr.detailedPaymentTypeOrders()
         data = fr.generateJSONReport()
 
     return json.loads(data)
@@ -71,13 +72,12 @@ def generate_report(data_content):
             fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
             st.plotly_chart(fig)
         
-        elif key.startswith("barchart") and isinstance(value, list):
+        elif key.startswith("barchart") and isinstance(value, Dict):
             # Converting list to Dataframe
-            chart_data = pd.DataFrame(value)
+            chart_data = pd.DataFrame.from_dict(value, orient='tight')
 
-            #chart_data = pd.DataFrame(
-            #np.random.randn(20, 3),
-            #columns=["a", "b", "c"])
+            print("Chart Data")
+            print(chart_data)
 
             st.bar_chart(chart_data)
 

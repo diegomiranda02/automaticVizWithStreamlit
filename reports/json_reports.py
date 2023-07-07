@@ -64,21 +64,23 @@ class FinancialReport(BaseJSONReport):
     def __init__(self, title:str, subtitle:str):
         super(FinancialReport, self).__init__(title, subtitle)
 
-    def detailedRevenue(self):
-        df1 = pd.DataFrame({'Name': ['John', 'Alice'], 'Age': [25, 30]})
-        df2 = pd.DataFrame({'City': ['New York', 'London'], 'Country': ['USA', 'UK']})
+    def detailedPaymentTypeOrders(self):
+        # Reading CSV file with the data
+        df_payments = pd.read_csv('data_files/olist_order_payments_dataset.csv')
 
-        df1_dict = df1.to_dict(orient='records')
-        df2_dict = df2.to_dict(orient='records')
+        # Filtering only the column 'payment_type'
+        df_filtered = df_payments[['payment_type']]
 
-        self.addBarChartData("Payments", df1_dict)
+        # Count the number of orders per payment type
+        df_grouped = df_filtered.groupby('payment_type').size().reset_index(name='Orders per payment type')
 
-    def detailedExpenses(self):
+        # Setting the column 'payment_type' as the dataframe index
+        df_grouped.set_index('payment_type', inplace=True)
 
-        mapdf1 = pd.DataFrame({'lat': [-23.5489, -23.5587, -23.5599, -23.5689, -23.5789], 'lon': [-46.6388, -46.6411, -46.6541, -46.6599, -46.6630]})
-        mapdf1_dict = mapdf1.to_dict(orient='records')
-        
-        self.addMapData("Map Teste", mapdf1_dict)
+        # Convert the dataframe to a dictionary
+        grouped_dict = df_grouped.to_dict('tight')
+
+        self.addBarChartData("Payments types detailed", grouped_dict)
     
     def generateJSONReport(self) -> Dict:
         return super().generateJSONReport()
