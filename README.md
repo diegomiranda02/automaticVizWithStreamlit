@@ -10,8 +10,9 @@ Streamlit is an open-source Python library designed for rapid prototyping and bu
 It is essential to establish a clear definition of the overall structure and layout to initiate the automation of the business report. The preferred format for exchanging data between the backend and visualization tool in this project was JSON. Furthermore, I established some specific patterns to construct the JSON. Presented below is a snippet of JSON that serves as an example, illustrating the organized structure of the data.
 
 ``` json
+
 {
-    tableContentDescription0" : "Products Revenue",
+    "tableContentDescription0" : "Products Revenue",
     "tableData0" : 
         [
        { "Year": "2022", "Product": "Product 1","Total":10000.00},
@@ -26,6 +27,7 @@ It is essential to establish a clear definition of the overall structure and lay
         { "lat": -23.5789, "lon": -46.6630}
         ]
 } 
+
 ``` 
 
 The class BaseReport automatically produces the JSON structure defined. The primary purpose of this class is to generate the JSON in the format described above. 
@@ -142,6 +144,10 @@ data = cr.generateJSONReport()
 
 You can define the title and subtitle in the 'customerReportTitle' and 'customerReportSubtitle' variables and add detailed customer information and location sections to the report. It is essential to note that it is possible to compose the report with only the sections needed. If only the customer location section is necessary, then only the method 'customerLocation' should be called. It gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
 
+The figures below show the Client Report:
+
+
+
 I implemented another example demonstrating exchanging data with indexes from the backend to the visualization tool. FinancialReport class has a 'detailedPaymentTypeOrders' section which generates data with the payment type as indexes. These indexes are sent in JSON as well as the values.  
 
 ``` python
@@ -171,6 +177,10 @@ class FinancialReport(BaseJSONReport):
     def generateJSONReport(self) -> Dict:
         return super().generateJSONReport()
 ```
+
+The figures below show the Financial Report:
+
+
 
 ### 3. Setting up your local environment:
 
