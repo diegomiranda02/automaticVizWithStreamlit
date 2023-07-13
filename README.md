@@ -180,7 +180,7 @@ class FinancialReport(BaseJSONReport):
 
 The figures below show the Financial Report:
 
-![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/client_table_count_and_percentage.png)?raw=true)
+![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/client_table_count_and_percentage.png?raw=true)
 
 
 
