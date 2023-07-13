@@ -28,7 +28,7 @@ To begin automating the business report, the definition of the overall structure
 } 
 ``` 
 
-To build this JSON structure automatically, the class BaseReport was created. The main purpose of this class is to get the data generate the part of JSON in the format define above. 
+To build this JSON structure automatically, the class BaseReport was created. The main purpose of this class is to generate the JSON in the format define above. 
 
 ```
 class BaseJSONReport():
@@ -68,7 +68,9 @@ class BaseJSONReport():
         return json_object
 ```
 
-Each method is reponsible to generate the component description and the JSON section with the data. For instance, the method 'addTableData' is responsible to generate the JSON section of the table description and the table data. To build this, is used a python dictionary type. Once the key of the dictionary is unique, the 'keySuffix' variable is reponsible to add a number to each key, to distiguish among keys with similar components. Below is an example on how to compose a JSON data report inheriting the BaseReport class:
+Each method is reponsible to generate the component description and the JSON section with the data. For instance, the method 'addTableData' is responsible to generate the JSON section of the table description and the table data. To build this, is used a python dictionary type. Once the key of the dictionary is unique, the 'keySuffix' variable is reponsible to add a number to each key, to distiguish among keys with similar components. 
+
+Below is an example on how to compose a JSON data report inheriting the BaseReport class:
 
 ```
 class CustomerReport(BaseJSONReport):
