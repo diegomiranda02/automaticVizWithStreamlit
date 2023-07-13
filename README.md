@@ -150,6 +150,8 @@ The figures below show the Client Report:
 
 ![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/map_with_SP_clients.png?raw=true)
 
+![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/map_with_SP_clients_zoom_in.png?raw=true)
+
 
 I implemented another example demonstrating exchanging data with indexes from the backend to the visualization tool. FinancialReport class has a 'detailedPaymentTypeOrders' section which generates data with the payment type as indexes. These indexes are sent in JSON as well as the values.  
 
