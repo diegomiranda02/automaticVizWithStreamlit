@@ -180,6 +180,8 @@ class FinancialReport(BaseJSONReport):
 
 The figures below show the Financial Report:
 
+![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/client_table_count_and_percentage.png?raw=true)
+
 
 
 ### 3. Setting up your local environment:
