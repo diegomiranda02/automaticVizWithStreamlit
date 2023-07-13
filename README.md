@@ -146,6 +146,9 @@ You can define the title and subtitle in the 'customerReportTitle' and 'customer
 
 The figures below show the Client Report:
 
+![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/client_table_count_and_percentage.png?raw=true)
+
+![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/map_with_SP_clients.png?raw=true)
 
 
 I implemented another example demonstrating exchanging data with indexes from the backend to the visualization tool. FinancialReport class has a 'detailedPaymentTypeOrders' section which generates data with the payment type as indexes. These indexes are sent in JSON as well as the values.  
@@ -179,6 +182,8 @@ class FinancialReport(BaseJSONReport):
 ```
 
 The figures below show the Financial Report:
+
+![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/financial_report.png?raw=true)
 
 
 
