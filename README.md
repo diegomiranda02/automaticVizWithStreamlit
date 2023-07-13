@@ -183,7 +183,7 @@ class FinancialReport(BaseJSONReport):
         return super().generateJSONReport()
 ```
 
-The figures below show the Financial Report:
+The figure below shows the Financial Report:
 
 ![alt text](https://github.com/diegomiranda02/automaticVizWithStreamlit/blob/main/images/financial_report.png?raw=true)
 
