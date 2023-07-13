@@ -9,7 +9,7 @@ Streamlit is an open-source Python library designed for rapid prototyping and bu
 ### 2. Creating the Report Structure:
 It is essential to establish a clear definition of the overall structure and layout to initiate the automation of the business report. The preferred format for exchanging data between the backend and visualization tool in this project was JSON. Furthermore, I established some specific patterns to construct the JSON. Presented below is a snippet of JSON that serves as an example, illustrating the organized structure of the data.
 
-```
+``` json
 {
     tableContentDescription0" : "Products Revenue",
     "tableData0" : 
@@ -30,7 +30,7 @@ It is essential to establish a clear definition of the overall structure and lay
 
 The class BaseReport automatically produces the JSON structure defined. The primary purpose of this class is to generate the JSON in the format described above. 
 
-```
+``` python
 class BaseJSONReport():
 
     def __init__(self, title:str, subtitle:str):
@@ -72,7 +72,7 @@ Each method generates the component description and the JSON section with the da
 
 Below is an example of how to compose a JSON data report inheriting the BaseReport class:
 
-```
+``` python
 class CustomerReport(BaseJSONReport):
 
     def __init__(self, title:str, subtitle:str):
@@ -124,14 +124,14 @@ CustomerReport class has two report sections: a customer detailed information se
 
 The following code sets the values of the title and subtitle of the report in the superclass BaseReport:
 
-```
+``` python
 def __init__(self, title:str, subtitle:str):
         super(CustomerReport, self).__init__(title, subtitle)
 ```
 
 Once you implement the CustomerReport, it is time to instantiate the report and retrieve the JSON result for display in the visualization tool. The following code performs this task:
 
-```
+``` python
 customerReportTitle = "Clients Report"
 customerReportSubtitle = "Detailed information about the Olist clients"
 cr = CustomerReport(customerReportTitle, customerReportSubtitle)
@@ -142,6 +142,35 @@ data = cr.generateJSONReport()
 
 You can define the title and subtitle in the 'customerReportTitle' and 'customerReportSubtitle' variables and add detailed customer information and location sections to the report. It is essential to note that it is possible to compose the report with only the sections needed. If only the customer location section is necessary, then only the method 'customerLocation' should be called. It gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
 
+I implemented another example demonstrating exchanging data with indexes from the backend to the visualization tool. FinancialReport class has a 'detailedPaymentTypeOrders' section which generates data with the payment type as indexes. These indexes are sent in JSON as well as the values.  
+
+``` python
+class FinancialReport(BaseJSONReport):
+
+    def __init__(self, title:str, subtitle:str):
+        super(FinancialReport, self).__init__(title, subtitle)
+
+    def detailedPaymentTypeOrders(self):
+        # Reading CSV file with the data
+        df_payments = pd.read_csv('data_files/olist_order_payments_dataset.csv')
+
+        # Filtering only the column 'payment_type'
+        df_filtered = df_payments[['payment_type']]
+
+        # Count the number of orders per payment type
+        df_grouped = df_filtered.groupby('payment_type').size().reset_index(name='Orders per payment type')
+
+        # Setting the column 'payment_type' as the dataframe index
+        df_grouped.set_index('payment_type', inplace=True)
+
+        # Convert the dataframe to a dictionary
+        grouped_dict = df_grouped.to_dict('tight')
+
+        self.addBarChartData("Payments types detailed", grouped_dict)
+    
+    def generateJSONReport(self) -> Dict:
+        return super().generateJSONReport()
+```
 
 ### 3. Setting up your local environment:
 
@@ -188,7 +217,7 @@ That's it! You've created a Docker image and run a Streamlit application using P
 
 Next, it is needed to load and preprocess the data that will populate the report. Streamlit supports various data formats, including CSV, Excel, and databases. This project used the Kaggle Dataset of the Brazilian E-Commerce Olist (link in the Dataset section) in CSV format, and the data underwent some preprocessing:
 
-```
+``` python
 # Read the CSV file from Olist Kaggle Dataset 
 df = pd.read_csv('data_files/olist_customers_dataset.csv')
 
@@ -218,7 +247,7 @@ We only needed the 'customer_state' column for this task. I renamed the columns 
 
 The map data is in the 'olist_geolocation_dataset_filtered_SP.csv' file, a more minor and filtered data than the original one. Only the Sao Paulo location is in the file. The only preprocessing step is to convert the 'lat' and 'lon' columns, which represent the latitude and the longitude, respectively, to a dictionary oriented by the records to meet the specification.
 
-```
+``` python
 # Read the CSV file from Olist Kaggle Dataset 
 df_geolocation = pd.read_csv('data_files/olist_geolocation_dataset_filtered_SP.csv')
 
@@ -231,7 +260,7 @@ grouped_dict = df_geolocation.to_dict(orient='records')
 
 With the JSON data in the pattern defined previously, it is possible to automate the visualization process. In this project, Streamlit was used to implement the frontend part, but it could be another tool or framework once the JSON standard is defined automatically. Below is the code to generate the visualization:
 
-```
+``` python
 def generate_report(data_content):
     for key,value in data_content.items():
         if key.startswith("table") and isinstance(value, list):
