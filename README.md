@@ -4,10 +4,10 @@
 In today's data-driven world, generating business reports efficiently and effectively is crucial for decision-making and analysis. Manual report creation can be time-consuming and error-prone, leading to delays and inaccuracies. However, with the help of Streamlit, a powerful Python library for data visualization and application development, automating business reports becomes a streamlined and straightforward process. In this article, we will explore how to leverage Streamlit to automate the creation of business reports, saving time and improving data insights.
 
 ### 1. Understanding Streamlit:
-Streamlit is an open-source Python library designed for rapid prototyping and building interactive data applications. It simplifies the process of creating web-based data visualizations, allowing developers and data scientists to quickly transform raw data into visually appealing and interactive reports. Streamlit's simplicity lies in its ability to convert Python scripts into interactive web apps effortlessly.
+Streamlit is an open-source Python library designed for rapid prototyping and building interactive data applications. It simplifies creating web-based data visualizations, allowing developers and data scientists to transform raw data into visually appealing and interactive reports quickly. Streamlit's simplicity lies in its ability to effortlessly convert Python scripts into interactive web apps.
 
 ### 2. Creating the Report Structure:
-To begin automating the business report, the definition of the overall structure and layout is needed. The formart chosen to exchange data bewteen the backend and visualization tool was JSON. Some patterns building the JSON were defined also. Bellow is a snipet of JSON exemplifying how the data is structured:
+It is essential to establish a clear definition of the overall structure and layout to initiate the automation of the business report. The preferred format for exchanging data between the backend and visualization tool in this project was JSON. Furthermore, I established some specific patterns to construct the JSON. Presented below is a snippet of JSON that serves as an example, illustrating the organized structure of the data.
 
 ```
 {
@@ -28,7 +28,7 @@ To begin automating the business report, the definition of the overall structure
 } 
 ``` 
 
-To build this JSON structure automatically, the class BaseReport was created. The main purpose of this class is to generate the JSON in the format define above. 
+The class BaseReport automatically produces the JSON structure defined. The primary purpose of this class is to generate the JSON in the format described above. 
 
 ```
 class BaseJSONReport():
@@ -68,9 +68,9 @@ class BaseJSONReport():
         return json_object
 ```
 
-Each method is reponsible to generate the component description and the JSON section with the data. For instance, the method 'addTableData' is responsible to generate the JSON section of the table description and the table data. To build this, is used a python dictionary type. Once the key of the dictionary is unique, the 'keySuffix' variable is reponsible to add a number to each key, to distiguish among keys with similar components. 
+Each method generates the component description and the JSON section with the data. For instance, the addTableData method generates the JSON section of the table description and the table data. To build this is used a Python dictionary type. Once the dictionary's key is unique, the 'keySuffix' variable adds a number to each key to distinguish among keys with similar components. 
 
-Below is an example on how to compose a JSON data report inheriting the BaseReport class:
+Below is an example of how to compose a JSON data report inheriting the BaseReport class:
 
 ```
 class CustomerReport(BaseJSONReport):
@@ -120,14 +120,16 @@ class CustomerReport(BaseJSONReport):
         return super().generateJSONReport()
 ```
 
-The classe CustomerReport has two report sections: a customer detailed information section, defined in the 'customerDetailedInformation method, and a customer location section, which is defined in the 'customerLocation' method. To generate the JSON is the format specified previouly, is used the methods of the class BaseReport 'addTableData' and 'addMapData'. And after the sections of the report implemented, the method 'generateJSONReport' is executed to create the whole report structure. To define the title and subtitle of the report, two variables are defined in the superclass BaseReport, and to set this variables values the following code is used:
+CustomerReport class has two report sections: a customer detailed information section, defined in the method 'customerDetailedInformation', and a customer location section, described in the  'customerLocation' method. The methods of the class BaseReport 'addTableData' and 'addMapData' are used to generate the JSON in the previously specified format. After implementing the report sections, run the 'generateJSONReport' method to create the whole report structure. 
+
+The following code sets the values of the title and subtitle of the report in the superclass BaseReport:
 
 ```
 def __init__(self, title:str, subtitle:str):
         super(CustomerReport, self).__init__(title, subtitle)
 ```
 
-After the CustomerReport is implemented, is time to instantiate the report and get the JSON result to show in the visualization tool. The following code do the job:
+Once you implement the CustomerReport, it is time to instantiate the report and retrieve the JSON result for display in the visualization tool. The following code performs this task:
 
 ```
 customerReportTitle = "Clients Report"
@@ -138,7 +140,8 @@ cr.customerLocation()
 data = cr.generateJSONReport()
 ```
 
-The title and subtitle are defined in the 'customerReportTitle' and 'customerReportSubtitle' variables. The sections of the customer detailed information and customer location are added to the report. It is import to notice that is possible to compose the report with only the sections needed. If only the customer location section is needed, than only the method 'customerLocation' should de called. this gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
+You can define the title and subtitle in the 'customerReportTitle' and 'customerReportSubtitle' variables and add detailed customer information and location sections to the report. It is essential to note that it is possible to compose the report with only the sections needed. If only the customer location section is necessary, then only the method 'customerLocation' should be called. It gives flexibility to the solution. Finally, the method 'generateJSONReport()' generates the whole JSON with the report data.
+
 
 ### 3. Setting up your local environment:
 
@@ -183,7 +186,7 @@ That's it! You've created a Docker image and run a Streamlit application using P
 
 ### 4. Loading and Preprocessing Data:
 
-Next, it is needed to load and preprocess the data that will populate the report. Streamlit supports various data formats, including CSV, Excel, and databases. In this project the Kaggle Dataset of the Brazilian E-Commerce Olist (link in the Dataset section) was used. Some preprocessing was done to the data:
+Next, it is needed to load and preprocess the data that will populate the report. Streamlit supports various data formats, including CSV, Excel, and databases. This project used the Kaggle Dataset of the Brazilian E-Commerce Olist (link in the Dataset section) in CSV format, and the data underwent some preprocessing:
 
 ```
 # Read the CSV file from Olist Kaggle Dataset 
@@ -211,9 +214,9 @@ grouped.sort_values('Percentage', ascending=False, inplace=True)
 grouped_dict = grouped.to_dict(orient='records')
 ```
 
-Only the 'customer_state' column was needed to this task. The columns was renamed and was calculated the number of clients per state and the percentage by each state. The last step is to convert the dataframe to a python dictionary, orienting by the records to print in the same JSON specification.
+We only needed the 'customer_state' column for this task. I renamed the columns and calculated the number of clients per state and the percentage for each state. The last step is to convert the dataframe to a Python dictionary, orienting by the records to print in the exact JSON specification.
 
-The map data is in the 'olist_geolocation_dataset_filtered_SP.csv' file, which is a smaller and filtered data than the original one. Only the Sao Paulo location is in the file. The only preprocessing step is to convert the 'lat' and 'lon' columns, which represent the latitude and the longitude, respectively, to a dictionary oriented by the records to meet the specification.
+The map data is in the 'olist_geolocation_dataset_filtered_SP.csv' file, a more minor and filtered data than the original one. Only the Sao Paulo location is in the file. The only preprocessing step is to convert the 'lat' and 'lon' columns, which represent the latitude and the longitude, respectively, to a dictionary oriented by the records to meet the specification.
 
 ```
 # Read the CSV file from Olist Kaggle Dataset 
@@ -226,7 +229,7 @@ grouped_dict = df_geolocation.to_dict(orient='records')
 
 ### 5. Visualizing Data:
 
-With the JSON data in the pattern defined previously, it is possible to automate the visualization process. In this project was used Streamlit to implement the frontend part, but it could be another tool or framework, once the JSON standard is defined automatically. Below is the code to generate the visualization:
+With the JSON data in the pattern defined previously, it is possible to automate the visualization process. In this project, Streamlit was used to implement the frontend part, but it could be another tool or framework once the JSON standard is defined automatically. Below is the code to generate the visualization:
 
 ```
 def generate_report(data_content):
@@ -259,7 +262,7 @@ def generate_report(data_content):
             st.plotly_chart(fig)
 ```
 
-Each method compares if the key has some pattern and the value type. For instance, if the key starts with 'map' and the value is a list then generates a map component. Another example is if the key starts with 'table' and the value is an instance of a list then a datatable is generated. The 'data_content' variable is the data in JSON specification format. The method 'generate_report' receives the JSON data as parameter the the report is generated automatically.
+Each method compares if the key has some pattern and the value type. For instance, if the key starts with 'map' and the value is a list, it generates a map component. Another example is if the key starts with 'table' and the value is an instance of a list, then a datatable is generated. The 'data_content' variable is the data in JSON specification format. The method 'generate_report' receives the JSON data as a parameter, generating the report automatically.
 
 ### 6. Deploying and Sharing the Report:
 
