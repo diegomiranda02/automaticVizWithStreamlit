@@ -72,7 +72,7 @@ class BaseJSONReport():
 
 Each method generates the component description and the JSON section with the data. For instance, the addTableData method generates the JSON section of the table description and the table data. To build this is used a Python dictionary type. Once the dictionary's key is unique, the 'keySuffix' variable adds a number to each key to distinguish among keys with similar components. 
 
-Below is an example of how to compose a JSON data report inheriting the BaseReport class:
+Below is an example of how to compose a JSON data report inheriting the BaseReport class, using the Olist Dataset (https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce):
 
 ``` python
 class CustomerReport(BaseJSONReport):
